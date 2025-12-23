@@ -1,0 +1,14 @@
+[user]
+	name = ukyang
+	email = ukyang0623@gmail.com
+[http]
+	proxy = http://127.0.0.1:7897
+	verify = false
+	sslverify = false
+[https]
+	proxy = http://127.0.0.1:7897
+	sslverify = false
+[core]
+	eol = lf
+	autocrlf = false
+	safecrlf = true
