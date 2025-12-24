@@ -62,7 +62,7 @@ install_oh_my_zsh() {
     
     # 检查是否已安装 Oh My Zsh
     if [ -d "$HOME/.oh-my-zsh" ]; then
-        log_warning "Oh My Zsh 已安装，跳过此步骤"
+	    log_warning "Oh My Zsh 已安装，跳过此步骤（如需卸载，可直接删除$HOME/.oh-my-zsh文件夹）"
         return 0
     fi
     
@@ -73,15 +73,15 @@ install_oh_my_zsh() {
         log_info "已备份原 .zshrc: $backup_file"
     fi
     
-    # 安装 Oh My Zsh（使用官方脚本）
+    # 安装 Oh My Zsh（使用官方脚本），需适配内网无证书环境
     log_info "下载并安装 Oh My Zsh..."
-    if sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; then
+    if safe_download_and_run "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" "OhMyhZsh-Install"; then
         log_success "Oh My Zsh 安装成功, 请输入CTRL-D继续"
     else
         log_error "Oh My Zsh 安装失败，尝试手动安装"
         
         # 手动安装作为备选方案
-        git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+        git clone -c http.sslverify=false https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
         cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
         
         log_success "Oh My Zsh 手动安装完成"
@@ -102,7 +102,7 @@ install_plugins() {
     # 安装 zsh-autosuggestions（自动建议）
     if [ ! -d "$plugins_dir/zsh-autosuggestions" ]; then
         log_info "安装 zsh-autosuggestions 插件..."
-        git clone https://github.com/zsh-users/zsh-autosuggestions.git "$plugins_dir/zsh-autosuggestions"
+        git clone -c http.sslverify=false https://github.com/zsh-users/zsh-autosuggestions.git "$plugins_dir/zsh-autosuggestions"
     else
         log_warning "zsh-autosuggestions 插件已存在，跳过安装"
     fi
@@ -110,7 +110,7 @@ install_plugins() {
     # 安装 zsh-syntax-highlighting（语法高亮）
     if [ ! -d "$plugins_dir/zsh-syntax-highlighting" ]; then
         log_info "安装 zsh-syntax-highlighting 插件..."
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$plugins_dir/zsh-syntax-highlighting"
+        git clone -c http.sslverify=false https://github.com/zsh-users/zsh-syntax-highlighting.git "$plugins_dir/zsh-syntax-highlighting"
     else
         log_warning "zsh-syntax-highlighting 插件已存在，跳过安装"
     fi
@@ -118,7 +118,7 @@ install_plugins() {
     # 安装 zsh-completions（自动补全）
     if [ ! -d "$plugins_dir/zsh-completions" ]; then
         log_info "安装 zsh-completions 插件..."
-        git clone https://github.com/zsh-users/zsh-completions.git "$plugins_dir/zsh-completions"
+        git clone -c http.sslverify=false https://github.com/zsh-users/zsh-completions.git "$plugins_dir/zsh-completions"
     else
         log_warning "zsh-completions 插件已存在，跳过安装"
     fi
@@ -144,7 +144,7 @@ install_powerlevel10k() {
     # 安装 PowerLevel10k
     if [ ! -d "$themes_dir/powerlevel10k" ]; then
         log_info "安装 PowerLevel10k 主题..."
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$themes_dir/powerlevel10k"
+        git clone -c http.sslverify=false --depth=1 https://github.com/romkatv/powerlevel10k.git "$themes_dir/powerlevel10k"
         log_success "PowerLevel10k 主题安装成功"
     else
         log_warning "PowerLevel10k 主题已存在，跳过安装"
@@ -284,6 +284,73 @@ final_setup() {
     
     echo ""
     log_info "现在可以重新启动终端体验新的 Zsh 环境！"
+}
+
+safe_download_and_run() {
+    local script_url="$1"
+    local script_name="$2" # 用于日志显示，可选项
+    local install_script_path=$(mktemp -t "${script_name:-install}.XXXXXX.sh") 2>/dev/null || mktemp -t "${script_name:-install}")
+
+    log_info "正在从 ${script_url} 下载安装脚本..."
+
+    # 使用curl下载脚本，并设置超时与错误处理[6,7](@ref)
+    # 将标准错误(stderr)重定向到标准输出(stdout)，以便捕获错误信息
+    curl_output=$(curl --connect-timeout 30 --max-time 120 --fail --silent --show-error --location "$script_url" 2>&1)
+    local curl_res=$?
+
+    if [[ $curl_res -ne 0 ]]; then
+        log_error "下载失败! curl错误代码: $curl_res"
+        # 根据常见的curl错误代码给出更具体的提示[1,3](@ref)
+        case $curl_res in
+            6)  log_error "原因: 无法解析主机。请检查网络连接或URL地址。";;
+            7)  log_error "原因: 无法连接到服务器。可能是网络问题、端口被阻止或域名解析正确但服务不可用。[3](@ref)";;
+            22) log_error "原因: HTTP错误。服务器返回了4xx或5xx状态码。";;
+            35) log_error "原因: SSL连接错误。可能与SSL证书有关。[1](@ref)";;
+            60) log_error "原因: SSL证书验证失败。[1](@ref) 可尝试使用 -k (--insecure) 选项绕过验证（不推荐用于生产环境）。";;
+            *)  log_error "请检查网络连接，并确认URL '${script_url}' 是可访问的。";;
+        esac
+        # 打印curl的输出，其中可能包含更详细的错误信息[6](@ref)
+        if [[ -n "$curl_output" ]]; then
+            log_error "详细错误信息: $curl_output"
+        fi
+        rm -f "$install_script_path"
+        return 1
+    fi
+
+    # 检查下载的内容是否为空
+    if [[ -z "$curl_output" ]]; then
+        log_error "下载的脚本内容为空！"
+        rm -f "$install_script_path"
+        return 1
+    fi
+
+    # 将下载的内容写入临时文件
+    echo "$curl_output" > "$install_script_path"
+
+    # 检查文件是否成功写入且可读
+    if [[ ! -r "$install_script_path" ]]; then
+        log_error "无法创建或读取临时安装脚本文件。"
+        rm -f "$install_script_path"
+        return 1
+    fi
+
+    log_info "下载成功。脚本已保存至: $install_script_path"
+    log_info "开始执行安装脚本..."
+
+    # 执行下载的脚本
+    chmod +x "$install_script_path"
+    sh "$install_script_path"
+    local script_res=$?
+
+    # 清理临时文件
+    rm -f "$install_script_path"
+
+    if [[ $script_res -ne 0 ]]; then
+        log_error "安装脚本执行失败，退出代码: $script_res"
+        return 1
+    else
+        log_success "${script_name:-安装脚本} 执行完毕。"
+    fi
 }
 
 # 主执行函数

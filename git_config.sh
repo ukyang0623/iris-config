@@ -151,9 +151,9 @@ pull_gitconfig() {
     temp_dir=$(mktemp -d)
     repo_url="https://github.com/ukyang0623/iris-config.git"
     
-    # 克隆仓库
+    # 克隆仓库，适配内网无ssl证书环境
     log_info "克隆iris-config..."
-    if git clone "$repo_url" "$temp_dir"; then
+    if git clone -c http.sslverify=false "$repo_url" "$temp_dir"; then
         # 查找.gitconfig文件
         if [ -f "$temp_dir/.gitconfig" ]; then
             cp "$temp_dir/.gitconfig" "$HOME/.gitconfig"
@@ -180,7 +180,7 @@ pull_gitconfig() {
 
 # 5. 配置用户信息
 setup_git_config() {
-    log_info "步骤5: 配置Git用户信息"
+    log_info "步骤5: 配置Git用户信息（如果无需配置，直接回车即可）"
     
     # 如果已有.gitconfig，备份原文件
     if [ -f "$HOME/.gitconfig" ]; then
@@ -189,6 +189,7 @@ setup_git_config() {
     	read -p "请输入Git邮箱: " git_email
     	read -p "请输入http代理（例如http://127.0.0.1:7897）: " http_proxy
     	read -p "请输入https代理（例如http://127.0.0.1:7897）: " https_proxy
+	read -p "请输入是否需要跳过github SSL证书校验（y/n）: " ssl_verify
     
     	if [ -n "$git_name" ]; then
         	git config --global user.name "$git_name"
@@ -204,6 +205,15 @@ setup_git_config() {
 
     	if [ -n "$https_proxy" ]; then
         	git config --global https.proxy "$https_proxy"
+    	fi
+
+    	if [ -n "$ssl_verify" ]; then
+    		case $key_type in
+        		"y")
+        			git config --global http.sslverify=false 
+        			git config --global https.sslverify=false 
+            		;;
+    		esac
     	fi
     
     	# 设置一些常用配置
@@ -263,6 +273,7 @@ main() {
 }
 
 # 脚本执行入口
-if [ "$(basename "$0")" = "$(basename "$BASH_SOURCE")" ]; then
+if [[ "$(basename "$0")" == "$(basename "$BASH_SOURCE")" ]] || 
+   { [[ "$0" == *"sh" ]] || [[ "$0" == *"bash" ]]; } && { [[ -t 0 ]] || [[ -p /dev/stdin ]]; }; then
     main "$@"
 fi
