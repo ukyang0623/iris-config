@@ -208,7 +208,7 @@ setup_git_config() {
     	fi
 
     	if [ -n "$ssl_verify" ]; then
-    		case $key_type in
+    		case $ssh_verify in
         		"y")
         			git config --global http.sslverify=false 
         			git config --global https.sslverify=false 
@@ -234,7 +234,7 @@ verify_setup() {
     log_info "步骤6: 验证配置"
     
     echo "=== 当前Git配置 ==="
-    git config --global --list
+    git --no-pager config --global --list
     
     echo ""
     echo "=== SSH密钥 ==="
