@@ -25,7 +25,7 @@ generate_ssh_key() {
     # 检查是否已存在SSH密钥
     if [ -f "$HOME/.ssh/id_ed25519" ] || [ -f "$HOME/.ssh/id_rsa" ]; then
         log_warning "检测到已存在的SSH密钥文件"
-        read -p "是否覆盖现有密钥? (y/N): " overwrite
+        read -p "是否覆盖现有密钥? (y/N): " overwrite </dev/tty
         if [[ ! $overwrite =~ ^[Yy]$ ]]; then
             log_info "使用现有SSH密钥"
             return 0
@@ -33,7 +33,7 @@ generate_ssh_key() {
     fi
     
     # 获取用户邮箱
-    read -p "请输入您的GitHub邮箱地址: " email
+    read -p "请输入您的GitHub邮箱地址: " email </dev/tty
     if [ -z "$email" ]; then
         log_error "邮箱地址不能为空"
         exit 1
@@ -43,7 +43,7 @@ generate_ssh_key() {
     log_info "选择密钥类型:"
     echo "1) ED25519 (推荐)"
     echo "2) RSA 4096"
-    read -p "请选择(默认1): " key_type
+    read -p "请选择(默认1): " key_type </dev/tty
     
     case $key_type in
         2|"rsa")
@@ -110,7 +110,7 @@ upload_to_github() {
     echo "5. 粘贴公钥内容"
     echo "6. 点击 'Add SSH key'"
     
-    read -p "完成后按回车键继续..." dummy
+    read -p "完成后按回车键继续..." dummy </dev/tty
 }
 
 # 3. 测试GitHub连接
@@ -118,7 +118,7 @@ test_github_connection() {
     log_info "步骤3: 测试GitHub连接"
     
     # 等待用户完成公钥添加
-    read -p "请确保已在GitHub添加公钥，然后按回车键继续测试连接..." dummy
+    read -p "请确保已在GitHub添加公钥，然后按回车键继续测试连接..." dummy </dev/tty
     
     # 测试SSH连接
     log_info "测试SSH连接到GitHub..."
@@ -185,11 +185,11 @@ setup_git_config() {
     # 如果已有.gitconfig，备份原文件
     if [ -f "$HOME/.gitconfig" ]; then
     	# 设置全局Git配置
-    	read -p "请输入Git用户名: " git_name
-    	read -p "请输入Git邮箱: " git_email
-    	read -p "请输入http代理（例如http://127.0.0.1:7897）: " http_proxy
-    	read -p "请输入https代理（例如http://127.0.0.1:7897）: " https_proxy
-	read -p "请输入是否需要跳过github SSL证书校验（y/n）: " ssl_verify
+    	read -p "请输入Git用户名: " git_name </dev/tty
+    	read -p "请输入Git邮箱: " git_email </dev/tty
+    	read -p "请输入http代理（例如http://127.0.0.1:7897）: " http_proxy </dev/tty
+    	read -p "请输入https代理（例如http://127.0.0.1:7897）: " https_proxy </dev/tty
+	read -p "请输入是否需要跳过github SSL证书校验（y/n）: " ssl_verify </dev/tty
     
     	if [ -n "$git_name" ]; then
         	git config --global user.name "$git_name"
@@ -257,7 +257,7 @@ main() {
     echo ""
     
     # 确认执行
-    read -p "是否继续? (y/N): " confirm
+    read -p "是否继续? (y/N): " confirm </dev/tty
     if [[ ! $confirm =~ ^[Yy]$ ]]; then
         log_info "操作已取消"
         exit 0

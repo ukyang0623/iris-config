@@ -366,7 +366,7 @@ main() {
     echo ""
     
     # 确认执行
-    read -p "是否继续? (y/N): " confirm
+    read -p "是否继续? (y/N): " confirm </dev/tty
     if [[ ! $confirm =~ ^[Yy]$ ]]; then
         log_info "操作已取消"
         exit 0
