@@ -210,8 +210,8 @@ setup_git_config() {
     	if [ -n "$ssl_verify" ]; then
     		case $ssl_verify in
         		"y")
-        			git config --global http.sslverify=false 
-        			git config --global https.sslverify=false 
+        			git config --global http.sslverify false 
+        			git config --global https.sslverify false 
             		;;
     		esac
     	fi
