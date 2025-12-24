@@ -24,7 +24,7 @@ install_zsh() {
     
     # 检查是否已安装 Zsh
     if command -v zsh &> /dev/null; then
-        log_warning "Zsh 已安装，版本: $(zsh --version | head -n1)"
+        log_warning "Zsh 已安装，版本: $(zsh --version | head -n1)，跳过此步骤（如需卸载，请使用包管理器卸载）"
         return 0
     fi
     
@@ -289,7 +289,7 @@ final_setup() {
 safe_download_and_run() {
     local script_url="$1"
     local script_name="$2" # 用于日志显示，可选项
-    local install_script_path=$(mktemp -t "${script_name:-install}.XXXXXX.sh") 2>/dev/null || mktemp -t "${script_name:-install}")
+    local install_script_path=$(mktemp -t "${script_name:-install}.XXXXXX.sh") 2>/dev/null || mktemp -t "${script_name:-install}"
 
     log_info "正在从 ${script_url} 下载安装脚本..."
 
