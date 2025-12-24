@@ -383,6 +383,7 @@ main() {
 }
 
 # 脚本执行入口
-if [ "$(basename "$0")" = "$(basename "$BASH_SOURCE")" ]; then
+if [[ "$(basename "$0")" == "$(basename "$BASH_SOURCE")" ]] ||
+   { [[ "$0" == *"sh" ]] || [[ "$0" == *"bash" ]]; } && { [[ -t 0 ]] || [[ -p /dev/stdin ]]; }; then
     main "$@"
 fi
