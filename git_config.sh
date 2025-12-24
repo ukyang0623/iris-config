@@ -208,7 +208,7 @@ setup_git_config() {
     	fi
 
     	if [ -n "$ssl_verify" ]; then
-    		case $ssh_verify in
+    		case $ssl_verify in
         		"y")
         			git config --global http.sslverify=false 
         			git config --global https.sslverify=false 
