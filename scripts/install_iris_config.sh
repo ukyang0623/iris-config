@@ -40,7 +40,7 @@ safe_download_execute() {
     log_info "下载地址: $script_url"
     
     # 创建临时文件
-    local temp_script=$(mktemp) || exit 1
+    local temp_script=$(mktemp)
     trap 'rm -f "$temp_script"' EXIT
     
     # 下载脚本
