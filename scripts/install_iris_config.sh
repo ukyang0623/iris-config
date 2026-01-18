@@ -41,7 +41,7 @@ safe_download_execute() {
     
     # 创建临时文件
     local temp_script=$(mktemp)
-    trap 'rm -f "$temp_script"' EXIT
+    # trap 'rm -f "$temp_script"' EXIT
     
     # 下载脚本
     if ! curl -fsSLk "$script_url" -o "$temp_script" 2>/dev/null; then
