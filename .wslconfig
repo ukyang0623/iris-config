@@ -1,0 +1,15 @@
+[wsl2]
+# 可选：限制WSL最大内存使用，避免占用过多资源
+memory=16GB
+
+[experimental]
+# 核心：启用镜像网络模式
+networkingMode=mirrored
+# 推荐开启：自动同步Windows的代理设置
+autoProxy=true
+# 推荐开启：让DNS查询也通过Windows，避免解析问题
+dnsTunneling=true
+# 推荐开启：确保Windows防火墙规则应用到WSL
+firewall=true
+# 可选：允许使用除127.0.0.1外的宿主机IP进行通信
+hostAddressLoopback=true
