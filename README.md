@@ -1,9 +1,9 @@
 ubuntu下git配置：
-1. 执行curl -fsSLk "https://raw.githubusercontent.com/ukyang0623/iris-config/refs/heads/main/git_config.sh" | bash
+1. 执行curl -fsSLk "https://raw.githubusercontent.com/ukyang0623/iris-config/refs/heads/main/scripts/git_config.sh" | bash
 
 
 ubuntu环境下zsh配置：
-1. 执行curl -fsSLk "https://raw.githubusercontent.com/ukyang0623/iris-config/refs/heads/main/git_config.sh" | bash
+1. 执行curl -fsSLk "https://raw.githubusercontent.com/ukyang0623/iris-config/refs/heads/main/scripts/zsh_config.sh" | bash
 注意事项：
 1. 权限要求：脚本需要sudo权限安装软件包
 2. 网络连接：需要稳定的网络连接来下载安装包和Git仓库
