@@ -217,9 +217,8 @@ main() {
     show_usage
 }
 
-# 脚本执行入口（特别优化用于 curl | bash 执行）
-# 检测是否通过 curl 管道执行或直接执行 [6,7](@ref)
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]] || 
-   { [[ -n "$BASH_SOURCE" ]] && [[ "$0" =~ bash$ ]]; } then
+# 脚本执行入口
+if [[ "$(basename "$0")" == "$(basename "$BASH_SOURCE")" ]] ||
+   { [[ "$0" == *"sh" ]] || [[ "$0" == *"bash" ]]; } && { [[ -t 0 ]] || [[ -p /dev/stdin ]]; }; then
     main "$@"
 fi
