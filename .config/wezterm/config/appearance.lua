@@ -8,16 +8,16 @@ function M.apply_to_config(config)
 		"JetBrainsMonoNL Nerd Font",
 		"Microsoft YaHei"	-- windows下中文字体兜底
 	})
-	config.font_size = 16.0
-	config.line_height = 1.1
+	config.font_size = 14.0
+	config.line_height = 1.0
 
   	-- 主题（Catppuccin Mocha/Dracula/Gruvbox Dark/Tokyo Night/Solarized）
   	config.color_scheme = M.get_time_based_scheme()
 
 	-- 窗口
-	config.window_background_opacity = 0.1		-- 窗口透明度
-  	config.text_background_opacity = 0.9
-	config.win32_system_backdrop = 'Acrylic'		-- windows 亚克力效果
+	config.window_background_opacity = 0.8		-- 窗口透明度
+  	-- config.text_background_opacity = 0.1
+	-- config.win32_system_backdrop = 'Acrylic'		-- windows 亚克力效果
 	config.window_decorations = 'INTEGRATED_BUTTONS|RESIZE'
 	config.window_padding = { left = 10, right = 10, top = 10, bottom = 10 }
 	-- 初始窗口大小

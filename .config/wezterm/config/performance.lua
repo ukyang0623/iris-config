@@ -3,8 +3,8 @@ local M = {}
 function M.apply_to_config(config)
   -- GPU 加速配置
   config.front_end = 'WebGpu'  -- 或者 'OpenGL'
-  config.max_fps = 60
-  config.animation_fps = 60
+  config.max_fps = 120
+  config.animation_fps = 120
   
   -- 内存优化
   config.scrollback_lines = 10000
