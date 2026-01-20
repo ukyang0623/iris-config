@@ -289,13 +289,13 @@ final_setup() {
 safe_download_and_run() {
     local script_url="$1"
     local script_name="$2" # 用于日志显示，可选项
-    local install_script_path=$(mktemp -t "${script_name:-install}.XXXXXX.sh") 2>/dev/null || mktemp -t "${script_name:-install}"
+    local install_script_path=$(mktemp -t "${script_name:-install}.XXXXXX.sh") 2>/dev/null
 
     log_info "正在从 ${script_url} 下载安装脚本..."
 
     # 使用curl下载脚本，并设置超时与错误处理[6,7](@ref)
     # 将标准错误(stderr)重定向到标准输出(stdout)，以便捕获错误信息
-    curl_output=$(curl --connect-timeout 30 --max-time 120 --fail --silent --show-error --location "$script_url" 2>&1)
+    curl_output=$(curl -k --connect-timeout 30 --max-time 120 --fail --silent --show-error --location "$script_url" 2>&1)
     local curl_res=$?
 
     if [[ $curl_res -ne 0 ]]; then
