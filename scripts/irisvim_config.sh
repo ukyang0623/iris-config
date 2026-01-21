@@ -76,7 +76,7 @@ install_neovim() {
     
     # 下载 NeoVim [3](@ref)
     log_info "下载 NeoVim..."
-    if ! curl -fsSL -o "$download_file" "$DOWNLOAD_URL"; then
+    if ! curl -fsSLk -o "$download_file" "$DOWNLOAD_URL"; then
         log_error "下载失败: $DOWNLOAD_URL"
         rm -rf "$temp_dir"
         exit 1
