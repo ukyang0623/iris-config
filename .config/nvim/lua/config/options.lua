@@ -12,10 +12,8 @@ set.signcolumn = "yes"                      -- 永远显示 sign column（诊断
 set.winborder = "rounded"                   -- 窗口边框样式
 set.ignorecase = true                       -- 搜索忽略大小写
 set.smartcase = true                        -- 当包含大写字母时，搜索区分大小写
-set.hlsearch = false                        -- 搜索匹配不高亮
+set.hlsearch = true                         -- 搜索匹配高亮
 set.incsearch = true                        -- 增量搜索
 set.foldmethod = "expr"                     -- 折叠方式使用表达式
 set.foldexpr = "nvim_treesitter#foldexpr()" -- 使用 Treesitter 表达式折叠
 set.foldlevel = 99                          -- 打开文件时默认不折叠
-
-vim.g.mapleader = " "                       -- 设置 leader 键为空格
