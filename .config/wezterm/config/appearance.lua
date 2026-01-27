@@ -5,7 +5,7 @@ local M = {}
 function M.apply_to_config(config)
 	-- 字体
 	config.font = wezterm.font_with_fallback({
-		"JetBrainsMonoNL Nerd Font",
+		"Lilex Nerd Font Propo Medium",
 		"Microsoft YaHei"	-- windows下中文字体兜底
 	})
 	config.font_size = 14.0
