@@ -1,6 +1,9 @@
+vim.g.irisvim_start_time = vim.loop.hrtime()
+
 require("config.options")
 require("config.keymaps")
 require("config.autocmds")
+require("config.usercmds")
 
 -- vim.pack
 -- nvim-treesitter: 语法高亮和折叠
@@ -11,10 +14,9 @@ require("config.autocmds")
 -- mini.files: 文件浏览器
 --
 --
--- open nvim -> UIEnter（未展示dashboard） -> VimEnter（展示dashboard）
+-- open nvim -> VimEnter（未展示dashboard） -> UIEnter（展示dashboard）
 -- open file -> BufReadPre -> BufRead/BufReadPost -> BufWinEnter -> FileType -> BufEnter
 -- switch mode -> normal -> InsertEnter -> insert -> InsertLeave -> normal
-require("plugins.dashboard")
 require("plugins.file") -- loaded after VimEnter
 require("plugins.lsp")
 require("plugins.boot")
@@ -26,3 +28,6 @@ require("plugins.debugging")  -- loaded at filetypes
 require("plugins.markdown") -- loaded at filetype
 
 require("plugins.git")      -- loaded after VimEnter
+require("plugins.whichkey") -- loaded after VimEnter
+require("plugins.jump")     -- loaded after VimEnter
+require("plugins.dashboard")

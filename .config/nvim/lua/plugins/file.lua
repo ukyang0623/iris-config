@@ -1,7 +1,7 @@
 vim.pack.add({
-    { src = "https://github.com/nvim-mini/mini.icons" }, -- 文件/文件夹图标
-    { src = "https://github.com/nvim-mini/mini.pick" },  -- 文件/缓冲区选择器
-    { src = "https://github.com/nvim-mini/mini.files" }, -- 文件浏览器
+    { src = "https://github.com/nvim-mini/mini.icons",  name = "file-mini.icons" }, -- 文件/文件夹图标
+    { src = "https://github.com/nvim-mini/mini.pick",   name = "file-mini.pic" },  -- 文件/缓冲区选择器
+    { src = "https://github.com/nvim-mini/mini.files",  name = "file-mini.files" }, -- 文件浏览器
 })
 
 vim.api.nvim_create_autocmd("VimEnter", {

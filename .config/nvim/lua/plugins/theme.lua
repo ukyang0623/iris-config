@@ -1,6 +1,6 @@
 vim.pack.add({
-    { src = "https://github.com/morhetz/gruvbox" }, -- gruvbox主题
-    { src = "https://github.com/catppuccin/nvim" }, -- catppuccin主题
+    { src = "https://github.com/morhetz/gruvbox",  name = "theme-gruvbox" },   -- gruvbox主题
+    { src = "https://github.com/catppuccin/nvim",  name = "theme-catppuccin" }, -- catppuccin主题
 })
 
 require("catppuccin").setup({
