@@ -1,5 +1,6 @@
 vim.pack.add({
-    { src = "https://github.com/lewis6991/gitsigns.nvim", name = "git-gitsigns.nvim" }, -- git状态显示
+    { src = "https://github.com/lewis6991/gitsigns.nvim", name = "git-gitsigns" },
+    { src = "https://github.com/kdheepak/lazygit.nvim",   name = "git-lazygit" },
 })
 
 vim.api.nvim_create_autocmd("VimEnter", {

@@ -1,5 +1,5 @@
 vim.pack.add({
-    { src = "https://github.com/folke/which-key.nvim", name = "cursor-which-key.nvim" }, -- git状态显示
+    { src = "https://github.com/folke/which-key.nvim", name = "tips-which-key.nvim" }, -- git状态显示
 })
 
 

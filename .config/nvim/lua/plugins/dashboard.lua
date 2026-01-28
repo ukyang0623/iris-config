@@ -1,4 +1,4 @@
---                   
+--                   
 vim.pack.add({
     { src = "https://github.com/nvimdev/dashboard-nvim", name = "dashboard-dashboard-nvim" },
 })
@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
                 '',
                 '🚀 Startup: ' .. startup_ms .. ' | ' ..
                 '💻 ' .. vim.fn.hostname() .. ' | ' ..
-                'Neovim V' .. vim.version().major .. '.' .. vim.version().minor .. '.' .. vim.version().patch,
+                ' Neovim V' .. vim.version().major .. '.' .. vim.version().minor .. '.' .. vim.version().patch,
                 '',
             }
         end

@@ -18,8 +18,10 @@ keymap("n", "<leader>q", vim.diagnostic.open_float, { noremap = true, desc = "Op
 keymap("n", "<leader>ql", vim.diagnostic.setloclist, { noremap = true, desc = "Open diagnostic [Q]uickfix [L]ist" })
 keymap("n", "<leader>pi", ":IrisvimPlugins<CR>", { noremap = true, desc = "Show [P]lugins [I]nfo" })
 keymap("n", "<leader>da", ":Dashboard<CR>", { noremap = true, desc = "Show [Da]shboard" })
-keymap("n", "s", "<Plug>(leap)", { noremap = true, desc = "test" })
-keymap("n", "S", "<Plug>(leap-from-window)", { noremap = true, desc = "test2" })
+keymap("n", "s", "<Plug>(leap)", { noremap = true, desc = "jump to everywhere" })
+keymap("n", "S", "<Plug>(leap-from-window)", { noremap = true, desc = "jump to every window" })
+-- git操作
+keymap("n", "<leader>gg", ":LazyGit<CR>", { noremap = true, desc = "open Lazy[G]it" })
 -- 窗口操作
 keymap("n", "sv", ":vs<CR><C-w>l", { noremap = true, desc = "vsplit" })
 keymap("n", "sp", ":sp<CR><C-w>j", { noremap = true, desc = "split" })
