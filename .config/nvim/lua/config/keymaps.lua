@@ -20,29 +20,44 @@ keymap("n", "<leader>pi", ":IrisvimPlugins<CR>", { noremap = true, desc = "Show 
 keymap("n", "<leader>da", ":Dashboard<CR>", { noremap = true, desc = "Show [Da]shboard" })
 keymap("n", "s", "<Plug>(leap)", { noremap = true, desc = "jump to everywhere" })
 keymap("n", "S", "<Plug>(leap-from-window)", { noremap = true, desc = "jump to every window" })
--- git操作
-keymap("n", "<leader>gg", ":LazyGit<CR>", { noremap = true, desc = "open Lazy[G]it" })
--- 窗口操作
+-- buffer操作
+keymap("n", "bc", ":bdelete %<CR>", { noremap = true, desc = "close this buffer" })
+keymap("n", "bp", ":BufferLinePickClose<CR>", { noremap = true, desc = "close pick buffer" })
+keymap("n", "bo", ":BufferLineCloseOthers<CR>",
+    { noremap = true, desc = "close other buffers" })
+-- window操作
 keymap("n", "sv", ":vs<CR><C-w>l", { noremap = true, desc = "vsplit" })
 keymap("n", "sp", ":sp<CR><C-w>j", { noremap = true, desc = "split" })
-keymap({ "n", "i", "v" }, "<C-q>", "<C-w>q", { noremap = true, desc = "close window" })
+keymap({ "n", "i", "v" }, "<C-q>", "<Cmd>qa<CR>", { noremap = true, desc = "close neovim" })
 keymap({ "n", "i", "v" }, "<C-s>", "<ESC>:w<CR>", { noremap = true, desc = "save file" })
 keymap("n", "sc", "<C-w>c", { noremap = true, desc = "close window (not the last window)" })
 keymap("n", "so", "<C-w>o", { noremap = true, desc = "close other windows" })
--- 窗口间移动
 keymap({ "n", "v" }, "<A-h>", "<C-w>h", { noremap = true, desc = "Move focus to the left window" })
 keymap({ "n", "v" }, "<A-j>", "<C-w>j", { noremap = true, desc = "Move focus to the lower window" })
 keymap({ "n", "v" }, "<A-k>", "<C-w>k", { noremap = true, desc = "Move focus to the upper window" })
 keymap({ "n", "v" }, "<A-l>", "<C-w>l", { noremap = true, desc = "Move focus to the right window" })
-keymap("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
-keymap("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
-keymap("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
-keymap("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
--- 调整窗口大小
+keymap("n", "<C-h>", "<C-w>H", { desc = "Move window to the left" })
+keymap("n", "<C-l>", "<C-w>L", { desc = "Move window to the right" })
+keymap("n", "<C-j>", "<C-w>J", { desc = "Move window to the lower" })
+keymap("n", "<C-k>", "<C-w>K", { desc = "Move window to the upper" })
 keymap("n", "<C-Up>", ":resize +2<CR>", { noremap = true, desc = "Increase window height" })
 keymap("n", "<C-Down>", ":resize -2<CR>", { noremap = true, desc = "Decrease window height" })
 keymap("n", "<C-Left>", ":vertical resize -2<CR>", { noremap = true, desc = "Decrease window width" })
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", { noremap = true, desc = "Increase window width" })
+-- tab操作
+keymap("n", "tn", "<Cmd>tabnew<CR>", { noremap = true, desc = "create new tab" })
+keymap("n", "tc", "<Cmd>tabc<CR>", { noremap = true, desc = "close this tab" })
+keymap("n", "to", "<Cmd>tabo<CR>", { noremap = true, desc = "close other tab" })
+keymap("n", "tr", "<Cmd>RenameTabPage<CR>", { noremap = true, desc = "rename the tab" })
+keymap("n", "tp", "<Cmd>Tabby pick_window<CR>", { noremap = true, desc = "pick tab" })
+keymap("n", "tj", "<Cmd>Tabby jump_to_tab<CR>", { noremap = true, desc = "jump to tab" })
+-- git操作
+keymap("n", "<leader>gg", ":LazyGit<CR>", { noremap = true, desc = "open Lazy[G]it" })
+-- session操作
+keymap("n", "<leader>sw", "<cmd>AutoSession save<CR>", { noremap = true, desc = "save session" })
+keymap("n", "<leader>ss", "<cmd>AutoSession search<CR>", { noremap = true, desc = "search session" })
+keymap("n", "<leader>sd", "<cmd>AutoSession deletePicker<CR>", { noremap = true, desc = "delete session" })
+keymap("n", "<leader>sr", "<cmd>AutoSession restore<CR>", { noremap = true, desc = "restore session" })
 -- 格式化
 keymap("n", "<C-A-l>",
     function()
@@ -75,7 +90,7 @@ keymap("n", "<F2>",
 -- keymap("v", "<A-j>", ":m '>+1<CR>gv=gv", { noremap = true, desc = "Move selection down" })
 -- keymap("v", "<A-k>", ":m '<-2<CR>gv=gv", { noremap = true, desc = "Move selection up" })
 -- 文件/插件快捷键
-keymap("n", "<leader>e", ":lua MiniFiles.open(MiniFiles.get_latest_path())<CR>",
+keymap("n", "<leader>e", ":lua MiniFiles.open(vim.api.nvim_buf_get_name(0), false)<CR>",
     { noremap = true, desc = "open file explorer" })
 keymap("n", "<leader>f", ":Pick files<CR>", { noremap = true, desc = "open file picker" })
 keymap("n", "<leader>h", ":Pick help<CR>", { noremap = true, desc = "open help picker" })

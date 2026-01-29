@@ -30,4 +30,6 @@ require("plugins.markdown") -- loaded at filetype
 require("plugins.git")      -- loaded after VimEnter
 require("plugins.whichkey") -- loaded after VimEnter
 require("plugins.jump")     -- loaded after VimEnter
+require("plugins.tabline")  -- loaded after VimEnter
+require("plugins.session")  -- loaded after VimEnter
 require("plugins.dashboard")

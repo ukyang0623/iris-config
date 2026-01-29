@@ -35,3 +35,5 @@ vim.g.clipboard = "xclip"
 vim.schedule(function()
     set.clipboard = "unnamedplus"
 end)
+-- session配置
+set.sessionoptions = "curdir,folds,globals,help,tabpages,terminal,winsize"

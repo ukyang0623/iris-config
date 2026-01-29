@@ -1,4 +1,4 @@
---                   
+--                  
 vim.pack.add({
     { src = "https://github.com/nvimdev/dashboard-nvim", name = "dashboard-dashboard-nvim" },
 })
@@ -52,15 +52,17 @@ vim.api.nvim_create_autocmd("VimEnter", {
                 },
                 center = {
                     {
-                        icon = ' ',
+                        icon = '            ',
                         desc = 'find file',
                         key = 'f',
+                        key_format = '',
                         action = 'Pick files'
                     },
                     {
-                        icon = ' ',
+                        icon = '            ',
                         desc = 'open file explorer',
                         key = 'o',
+                        key_format = '',
                         action = 'lua MiniFiles.open(MiniFiles.get_latest_path())'
                     },
                     --                    {
@@ -70,10 +72,25 @@ vim.api.nvim_create_autocmd("VimEnter", {
                     --                        action = ''
                     --                    },
                     {
-                        icon = ' ',
+                        icon = '            ',
                         desc = 'show plugins info',
                         key = 's',
+                        key_format = '',
                         action = 'IrisvimPlugins'
+                    },
+                    {
+                        icon = '            ',
+                        desc = 'restore session',
+                        key = 'r',
+                        key_format = '',
+                        action = 'AutoSession restore'
+                    },
+                    {
+                        icon = '            ',
+                        desc = 'quit',
+                        key = 'q',
+                        key_format = '',
+                        action = 'q'
                     }
                 },
                 footer = generate_footer(),
