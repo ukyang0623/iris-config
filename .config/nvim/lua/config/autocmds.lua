@@ -116,3 +116,32 @@ vim.api.nvim_create_autocmd('User', {
 --         vim.cmd('source ' .. args.file) -- 重载配置
 --    end
 -- })
+
+-- 文件自动保存
+local save_debounce = nil
+vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
+    callback = function()
+        -- 防抖处理
+        if save_debounce then
+            save_debounce:close()
+            save_debounce = nil
+        end
+
+        save_debounce = vim.defer_fn(function()
+            if vim.bo.readonly or vim.bo.buftype ~= "" then
+                save_debounce = nil
+                return
+            end
+
+            vim.fn.execute("silent! write")
+
+            -- 获取文件名
+            local bufname = vim.fn.expand("%:t")
+            if bufname == "" then
+                bufname = "[No Name]"
+            end
+            vim.notify(string.format("💾 AutoSaved: %s", bufname), vim.log.levels.INFO, {})
+            save_debounce = nil
+        end, 5000) -- 延迟1秒保存
+    end,
+})

@@ -35,5 +35,9 @@ vim.g.clipboard = "xclip"
 vim.schedule(function()
     set.clipboard = "unnamedplus"
 end)
--- session配置
+-- session设置
 set.sessionoptions = "curdir,folds,globals,help,tabpages,terminal,winsize"
+-- set.laststatus = 0 -- 设置laststatus不显示
+-- set.cmdheight = 0
+-- tabline设置
+set.showtabline = 2

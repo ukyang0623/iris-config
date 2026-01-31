@@ -25,11 +25,13 @@ require("plugins.theme")
 require("plugins.debugging")  -- loaded at filetypes
 
 -- open file -> load plugin -> enable lsp
-require("plugins.markdown") -- loaded at filetype
+require("plugins.markdown")   -- loaded at filetype
 
-require("plugins.git")      -- loaded after VimEnter
-require("plugins.whichkey") -- loaded after VimEnter
-require("plugins.jump")     -- loaded after VimEnter
-require("plugins.tabline")  -- loaded after VimEnter
-require("plugins.session")  -- loaded after VimEnter
+require("plugins.git")        -- loaded after VimEnter
+-- require("plugins.tips")   -- loaded after VimEnter
+require("plugins.jump")       -- loaded after VimEnter
+require("plugins.tabline")    -- loaded after VimEnter
+require("plugins.session")    -- loaded after VimEnter
+require("plugins.statusline") -- loaded after VimEnter
+require("plugins.ui")         -- loaded after VimEnter
 require("plugins.dashboard")
