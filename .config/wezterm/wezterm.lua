@@ -61,6 +61,15 @@ wezterm.on('mux-startup', function(cmd)
     }
 end)
 
+-- 自动居中
+wezterm.on('gui-startup', function(cmd)
+    local screen = wezterm.gui.screens().main
+    local w, h = 1000, 600
+    local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
+    window:gui_window():set_position(screen.width / 2 - w / 2, screen.height / 2 - h / 2)
+    window:gui_window():set_inner_size(w, h)
+end)
+
 --wezterm.on('gui-attached', function(domain)
 --    -- maximize all displayed windows on startup
 --    local workspace = mux.get_active_workspace()
@@ -73,7 +82,7 @@ end)
 
 -- === config == --
 local config = {
-    default_gui_startup_args = { 'connect', 'unix', '--position', position },
+    -- default_gui_startup_args = { 'connect', 'unix', '--position', position },
     -- default_gui_startup_args = { 'wsl.exe', '-d', 'test', '-u', 'root' },
 
     status_update_interval = 1000,
@@ -145,15 +154,21 @@ local config = {
         --'[\'\"].*[\'\"]',
         --'(?<=\\s).*?(?=\\s)',
     },
+    debug_key_events = true,
+    -- enable_kitty_keyboard = true,
+    -- enable_csi_u_key_encoding = true,
+    -- allow_win32_input_mode = true
 }
 
 if wezterm.target_triple:find("windows") then
     -- Windows 配置
-    config.default_prog = { "powershell.exe" } -- 默认使用 PowerShell
+    config.default_prog = { "wsl.exe", "-u", "root", "--cd", "/mnt/c/Users/ukyan/.config/wezterm/" } -- 默认使用 wsl
     config.launch_menu = {
-        { label = "PowerShell",     args = { "powershell.exe" } },
-        { label = "Command Prompt", args = { "cmd.exe" } },
-        { label = "WSL Ubuntu",     args = { "wsl.exe", "-d", "Ubuntu" } },
+        {
+            label = "Ubuntu-24.04-dev",
+            args = { "wsl.exe", "-d", "test", "-u", "root", "--cd", "/mnt/c/Users/ukyan/.config/wezterm/" }
+        },
+        { label = "Powershell", args = { "powershell.exe" } },
     }
     -- 彩色提示符
     config.set_environment_variables = {
@@ -238,41 +253,42 @@ config.keys = {
             Regex = '\\w*@\\w+:|❯',
         },
     },
-    { key = 'd', mods = 'SUPER',      action = act.ScrollByPage(0.5) },
-    { key = 'u', mods = 'SUPER',      action = act.ScrollByPage(-0.5) },
+    { key = 'd',          mods = 'SUPER',      action = act.ScrollByPage(0.5) },
+    { key = 'u',          mods = 'SUPER',      action = act.ScrollByPage(-0.5) },
 
     -- { key = 'c', mods = 'LEADER',     action = act.ActivateCopyMode },
-    { key = 'e', mods = 'LEADER',     action = act.QuickSelect },
+    -- { key = 'e', mods = 'CTRL|SHIFT', action = act.QuickSelect },
+    { key = 'n',          mods = "LEADER",     action = "ShowLauncher" },
+    { key = 'p',          mods = "LEADER",     action = "ShowTabNavigator" },
 
     -- Create a new workspace with a random name and switch to it
-    { key = 'h', mods = 'CTRL|SHIFT', action = act.SwitchToWorkspace },
-    { key = 'w', mods = 'LEADER', action = act.ShowLauncherArgs { flags = 'FUZZY|WORKSPACES', },
-    },
+    { key = 'h',          mods = 'CTRL|SHIFT', action = act.SwitchToWorkspace },
+    -- { key = '-',          mods = 'LEADER',      action = act.ShowLauncherArgs { flags = 'FUZZY|WORKSPACES', }, },
     --{ key = 'l', mods = 'ALT', action = wezterm.action.ShowLauncher },
     --{ key = 'y', mods = 'ALT', action = wezterm.action.ShowTabNavigator },
 
-    { key = '-',          mods = 'CTRL',        action = act.DisableDefaultAssignment },
-    { key = '=',          mods = 'CTRL',        action = act.DisableDefaultAssignment },
+    { key = '-',          mods = 'CTRL',       action = act.DisableDefaultAssignment },
+    { key = '=',          mods = 'CTRL',       action = act.DisableDefaultAssignment },
     -- 标签页移动
-    { key = 'h',          mods = 'SUPER|SHIFT', action = wezterm.action.ActivatePaneDirection 'Left' },
-    { key = 'l',          mods = 'SUPER|SHIFT', action = wezterm.action.ActivatePaneDirection 'Right' },
-    { key = 'k',          mods = 'SUPER|SHIFT', action = wezterm.action.ActivatePaneDirection 'Up' },
-    { key = 'j',          mods = 'SUPER|SHIFT', action = wezterm.action.ActivatePaneDirection 'Down' },
+    { key = 'h',          mods = 'ALT|CTRL',   action = wezterm.action.ActivatePaneDirection 'Left' },
+    { key = 'l',          mods = 'ALT|CTRL',   action = wezterm.action.ActivatePaneDirection 'Right' },
+    { key = 'k',          mods = 'ALT|CTRL',   action = wezterm.action.ActivatePaneDirection 'Up' },
+    { key = 'j',          mods = 'ALT|CTRL',   action = wezterm.action.ActivatePaneDirection 'Down' },
 
     -- 复制和粘贴
     -- { key = 'c',          mods = 'CTRL|SHIFT',  action = wezterm.action.CopyTo 'Clipboard' },
-    { key = 'v',          mods = 'CTRL|SHIFT',  action = wezterm.action.PasteFrom 'Clipboard' },
+    -- { key = 'v',          mods = 'CTRL|SHIFT',  action = wezterm.action.PasteFrom 'Clipboard' },
     -- 标签页管理
-    { key = 'n',          mods = 'CTRL|SHIFT',  action = wezterm.action.SpawnTab 'CurrentPaneDomain' },                     -- 新建标签页
+    -- { key = 'n',          mods = 'CTRL|SHIFT',  action = wezterm.action.SpawnTab 'CurrentPaneDomain' },                     -- 新建标签页
     --{ key = 'w', mods = 'CTRL|SHIFT', action = wezterm.action.CloseCurrentTab { confirm = true } }, -- 关闭标签页
-    { key = 'LeftArrow',  mods = 'CTRL|SHIFT',  action = wezterm.action.ActivateTabRelative(-1) },                          -- 上一个标签页
-    { key = 'RightArrow', mods = 'CTRL|SHIFT',  action = wezterm.action.ActivateTabRelative(1) },                           -- 下一个标签页
+    { key = 'LeftArrow',  mods = 'CTRL|SHIFT', action = wezterm.action.ActivateTabRelative(-1) },                          -- 上一个标签页
+    { key = 'RightArrow', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateTabRelative(1) },                           -- 下一个标签页
     -- 分屏管理 (panes)
-    { key = 's',          mods = 'CTRL|SHIFT',  action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' } },   -- 垂直分屏
-    { key = 'v',          mods = 'CTRL|SHIFT',  action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' } }, -- 水平分屏
-    { key = 'c',          mods = 'CTRL|SHIFT',  action = act.CloseCurrentPane { confirm = false } },                        -- 关闭 pane
+    { key = 's',          mods = 'LEADER',     action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' } },   -- 垂直分屏
+    { key = 'v',          mods = 'LEADER',     action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' } }, -- 水平分屏
+    { key = 'c',          mods = 'LEADER',     action = act.CloseCurrentPane { confirm = false } },                        -- 关闭 pane
     -- { key = 'j', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection 'Down' },
-    { key = 'z',          mods = 'LEADER',      action = wezterm.action.TogglePaneZoomState },                              -- 放大/缩小当前分屏
+    { key = 'z',          mods = 'LEADER',     action = wezterm.action.TogglePaneZoomState },                              -- 放大/缩小当前分屏
     --{ key = 'f', mods = 'LEADER', action = wezterm.action.ToggleFullScreen }, -- 放大/缩小当前分屏
     -- 内置 SSH 客户端示例
     -- { key = 'S', mods = 'CTRL|SHIFT', action = wezterm.action.SpawnCommandInNewTab { args = { 'wezterm', 'ssh', 'user@host' } } },
@@ -380,7 +396,8 @@ config.key_tables = {
 --==Workspaces==
 
 local function tab_title(tab_info, max_width)
-    local title = tab_info.active_pane.title
+    -- local title = tab_info.active_pane.title
+    local title = tab_info.tab_title
     local title_num_text = tab_info.tab_index + 1 .. ': '
     local zoomed_flag = '[z]'
     title = wezterm.truncate_left(title, max_width - 5)
@@ -399,7 +416,7 @@ local function tab_decorations(tab, title)
     local element = {}
     table.insert(element, 'ResetAttributes')
     table.insert(element, { Background = { Color = '#24252f' } })
-    table.insert(element, { Foreground = { Color = '#b687f9' } })
+    table.insert(element, { Foreground = { Color = '#A66EFF' } })
 
     if tab.tab_index == 0 then -- first tab
         table.insert(element, { Text = ' ' })
@@ -408,11 +425,11 @@ local function tab_decorations(tab, title)
     end
     table.insert(element, 'ResetAttributes')
     table.insert(element, { Foreground = { Color = 'Black' } })
-    table.insert(element, { Background = { Color = '#bd93f9' } })
+    table.insert(element, { Background = { Color = '#B280FF' } })
     table.insert(element, { Text = title })
     table.insert(element, 'ResetAttributes')
-    table.insert(element, { Background = { Color = '#24252f' } })
-    table.insert(element, { Foreground = { Color = '#b687f9' } })
+    table.insert(element, { Background = { Color = '#1A1B23' } })
+    table.insert(element, { Foreground = { Color = '#A66EFF' } })
     table.insert(element, { Text = '' })
     return element
 end
@@ -498,37 +515,37 @@ end
 wezterm.on('update-right-status', function(window, pane)
     window:set_right_status(wezterm.format {
         'ResetAttributes',
-        { Foreground = { Color = '#F08D94' } },
+        { Foreground = { Color = '#FF7A87' } },
         { Text = '' },
         'ResetAttributes',
         { Foreground = { Color = 'Black' } },
-        { Background = { Color = '#F89AA2' } },
+        { Background = { Color = '#FF889B' } },
         { Text = ': ' .. get_mem_usage() },
         'ResetAttributes',
         --{ Foreground = { Color = '#7dbefe'} },
-        { Foreground = { Color = '#F08D94' } },
+        { Foreground = { Color = '#FF7A87' } },
         { Text = ' ' },
         'ResetAttributes',
-        { Foreground = { Color = '#F2D188' } },
+        { Foreground = { Color = '#FFD166' } },
         { Text = '' },
         'ResetAttributes',
         { Foreground = { Color = 'Black' } },
-        { Background = { Color = '#FEE3A6' } },
+        { Background = { Color = '#FFE08A' } },
         { Text = ': ' .. get_cpu_usage() .. '%' },
         'ResetAttributes',
         --{ Foreground = { Color = '#7dbefe'} },
-        { Foreground = { Color = '#F2D188' } },
+        { Foreground = { Color = '#FFD166' } },
         { Text = ' ' },
         'ResetAttributes',
-        { Foreground = { Color = '#7dbefe' } },
+        { Foreground = { Color = '#5BACFF' } },
         { Text = '' },
         'ResetAttributes',
         { Foreground = { Color = 'Black' } },
-        { Background = { Color = '#98cbfe' } },
+        { Background = { Color = '#70B8FF' } },
         { Text = ' ' .. window:active_workspace() },
         'ResetAttributes',
         --{ Foreground = { Color = '#7dbefe'} },
-        { Foreground = { Color = '#7dbefe' } },
+        { Foreground = { Color = '#5BACFF' } },
         { Text = ' ' },
     })
 end)

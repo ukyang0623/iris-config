@@ -6,11 +6,11 @@ vim.pack.add({
 local theme = {
     -- this is carbonfox theme
     fill = 'TabLineFill',
-    head = { fg = '#75beff', bg = '#1c1e26', style = 'italic' },
-    current_tab = { fg = '#1c1e26', bg = '#75beff', style = 'italic' },
-    tab = { fg = '#c5cdd9', bg = '#1c1e26', style = 'italic' },
-    win = { fg = '#1c1e26', bg = '#75beff', style = 'italic' },
-    tail = { fg = '#75beff', bg = '#1c1e26', style = 'italic' },
+    head = { fg = '#4AAEFF', bg = '#15171E', style = 'bold' },
+    current_tab = { fg = '#15171E', bg = '#4AAEFF', style = 'bold' },
+    tab = { fg = '#A7B8D1', bg = '#15171E', style = 'bold' },
+    win = { fg = '#15171E', bg = '#4AAEFF', style = 'bold' },
+    tail = { fg = '#4AAEFF', bg = '#15171E', style = 'bold' },
 }
 
 vim.api.nvim_create_autocmd("VimEnter", {

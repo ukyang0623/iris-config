@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
                 '',
                 '🚀 Startup: ' .. startup_ms .. ' | ' ..
                 '💻 ' .. vim.fn.hostname() .. ' | ' ..
-                ' Neovim V' .. vim.version().major .. '.' .. vim.version().minor .. '.' .. vim.version().patch,
+                ' Neovim V' .. vim.version().major .. '.' .. vim.version().minor,
                 '',
             }
         end
@@ -52,17 +52,17 @@ vim.api.nvim_create_autocmd("VimEnter", {
                 },
                 center = {
                     {
-                        icon = '            ',
+                        icon = '  ',
                         desc = 'find file',
                         key = 'f',
-                        key_format = '',
+                        key_format = '%s',
                         action = 'Pick files'
                     },
                     {
-                        icon = '            ',
+                        icon = '  ',
                         desc = 'open file explorer',
                         key = 'o',
-                        key_format = '',
+                        key_format = '%s',
                         action = 'lua MiniFiles.open(MiniFiles.get_latest_path())'
                     },
                     --                    {
@@ -72,24 +72,24 @@ vim.api.nvim_create_autocmd("VimEnter", {
                     --                        action = ''
                     --                    },
                     {
-                        icon = '            ',
+                        icon = '  ',
                         desc = 'show plugins info',
                         key = 's',
-                        key_format = '',
+                        key_format = '%s',
                         action = 'IrisvimPlugins'
                     },
                     {
-                        icon = '            ',
+                        icon = '  ',
                         desc = 'restore session',
                         key = 'r',
-                        key_format = '',
+                        key_format = '%s',
                         action = 'AutoSession restore'
                     },
                     {
-                        icon = '            ',
+                        icon = '  ',
                         desc = 'quit',
                         key = 'q',
-                        key_format = '',
+                        key_format = '%s',
                         action = 'q'
                     }
                 },
