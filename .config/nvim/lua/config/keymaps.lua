@@ -21,6 +21,8 @@ keymap("n", "<leader>da", ":Dashboard<CR>", { noremap = true, desc = "Show [Da]s
 keymap("n", "s", "<Plug>(leap)", { noremap = true, desc = "jump to everywhere" })
 keymap("n", "S", "<Plug>(leap-from-window)", { noremap = true, desc = "jump to every window" })
 keymap({ "n", "i", "v" }, "<C-s>", "<ESC><Cmd>w<CR>", { noremap = true, desc = "save file" })
+keymap("n", "<leader>ll", "30zl", { noremap = true, desc = "go right" })
+keymap("n", "<leader>hh", "30zh", { noremap = true, desc = "go left" })
 -- buffer操作
 keymap("n", "bc", "<Cmd>bdelete %<CR>", { noremap = true, desc = "close this buffer" })
 keymap("n", "bp", "<Cmd>BufferLinePickClose<CR>", { noremap = true, desc = "close pick buffer" })

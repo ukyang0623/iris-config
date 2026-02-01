@@ -8,7 +8,11 @@ vim.pack.add({
     --    { src = "https://github.com/projekt0n/github-nvim-theme", name = "theme-github" },     -- github主题
 })
 
-require("nightfox").setup({})
+require("nightfox").setup({
+    options = {
+        transparent = true
+    }
+})
 vim.cmd("colorscheme carbonfox")
 -- vim.cmd.hi("statusline guibg=NONE")
 -- vim.cmd.hi("Comment gui=ONE")

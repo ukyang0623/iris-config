@@ -84,9 +84,15 @@ end)
 local config = {
     -- default_gui_startup_args = { 'connect', 'unix', '--position', position },
     -- default_gui_startup_args = { 'wsl.exe', '-d', 'test', '-u', 'root' },
+    -- window_background_image = 'C:\\Users\\ukyan\\.config\\wezterm\\wallpaper\\15694012.jpg',
+    window_background_image_hsb = nil,
+    window_frame = {
+        active_titlebar_bg = "#1a1b26",
+        inactive_titlebar_bg = "#1a1b26",
+    },
 
     status_update_interval = 1000,
-    front_end = "WebGpu",
+    -- front_end = "OpenGL",
     max_fps = 120,
     webgpu_power_preference = "HighPerformance",
     -- cursor_style
@@ -107,7 +113,7 @@ local config = {
     -- === 颜色主题 ===
     -- 可以从 wezterm.colors 模块导入主题，或手动定义
     -- 参考：https://wezterm.org/docs/colors.html
-    --color_scheme = 'Dracula (Official)', -- 内置主题
+    -- color_scheme = 'Dracula (Official)', -- 内置主题
     --color_scheme = 'Catppuccin Mocha', -- 内置主题
     --color_scheme = 'tokyonight', -- 内置主题
     color_scheme = 'carbonfox', -- 内置主题
@@ -115,7 +121,7 @@ local config = {
     use_fancy_tab_bar = false,
     hide_tab_bar_if_only_one_tab = false,
     tab_bar_at_bottom = true,
-    tab_max_width = 25,
+    tab_max_width = 50,
     --tab_bar_style = {
     --    window_maximize = wezterm.format {
     --        { Foreground = { Color = '#7dbefe' } },
@@ -123,7 +129,8 @@ local config = {
     --window_close = wezterm.format { { Text = '󰖯 ' } },
     --},
     -- === 窗口设置 ===
-    window_background_opacity = 0.85,  -- 背景透明度
+    window_background_opacity = 1.0,   -- 背景透明度
+    -- win32_system_backdrop = 'Acrylic',
     macos_window_background_blur = 25, -- 玻璃模糊效果
     text_background_opacity = 1.0,     -- 文本背景不透明
     initial_cols = default_width,
@@ -154,7 +161,7 @@ local config = {
         --'[\'\"].*[\'\"]',
         --'(?<=\\s).*?(?=\\s)',
     },
-    debug_key_events = true,
+    -- debug_key_events = true,
     -- enable_kitty_keyboard = true,
     -- enable_csi_u_key_encoding = true,
     -- allow_win32_input_mode = true

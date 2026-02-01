@@ -1,0 +1,2 @@
+@echo off
+powershell -NoProfile -Command "&{$totalMemBytes = [uint64]((Get-CimInstance -ClassName Win32_ComputerSystem).TotalPhysicalMemory); $freeMemBytes = [uint64]((Get-CimInstance -ClassName Win32_OperatingSystem).FreePhysicalMemory) * 1024; $usedMemBytes = $totalMemBytes - $freeMemBytes; $usedMemGB = [math]::Round($usedMemBytes / 1GB, 1); $usedPercent = [math]::Round(($usedMemBytes / $totalMemBytes) * 100); Write-Output ($usedMemGB.ToString() + ' GB(' + $usedPercent.ToString() + '%%)')}"
